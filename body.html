@@ -1,0 +1,308 @@
+
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Professor</title>
+		<link rel="icon" type="image/x-icon" href="img/logo4.PNG">
+		<style>
+			body {
+			            font-family: Arial, sans-serif;
+			            background-color: #0344d1;
+			            color: #ff0000;
+			            text-align: center;
+			            padding: 50px;
+			        }
+			
+			        h1 {
+			            font-size: 3em;
+			            margin-bottom: 20px;
+			            color: #ff0000;
+			            text-shadow: 0 0 10px #ff0000;
+			        }
+			
+			        .logo {
+			            margin: 20px 0;
+			        }
+			
+			        .description-site {
+			            font-size: 1em;
+			            color: #fff;
+			            margin-bottom: 40px;
+			            max-width: 600px;
+			            margin: 0 auto;
+			        }
+			
+			        .product-container {
+			            display: flex;
+			            flex-wrap: wrap;
+			            justify-content: center;
+			            gap: 20px;
+			        }
+			
+			        .product-card {
+			            background-color: #1a1a1a;
+			            border: 2px solid #ff0000;
+			            border-radius: 10px;
+			            width: 300px;
+			            text-align: center;
+			            padding: 20px;
+			            box-shadow: 0 0 10px #ff0000;
+			            transition: transform 0.3s, box-shadow 0.3s;
+			        }
+			
+			        .product-card:hover {
+			            transform: translateY(-10px);
+			            box-shadow: 0 0 20px #ff0000;
+			        }
+			
+			        .product-card img {
+			            width: 100px;
+			            height: 100px;
+			        }
+			
+			        .product-card h2 {
+			            font-size: 1.2em;
+			            color: #ff0000;
+			            margin: 10px 0;
+			        }
+			
+			        .product-card p {
+			            font-size: 0.9em;
+			            color: #ffffff;
+			            margin: 10px 0;
+			        }
+			
+			        .product-card .price {
+			            font-size: 1.1em;
+			            color: #ff0000;
+			            margin: 10px 0;
+			        }
+			
+			        .product-card .buy-button {
+			            display: inline-block;
+			            padding: 10px 20px;
+			            font-size: 1em;
+			            color: #ff0000;
+			            background-color: #000000;
+			            border: 2px solid #ff0000;
+			            border-radius: 5px;
+			            text-decoration: none;
+			            transition: background-color 0.3s, box-shadow 0.3s;
+			        }
+			
+			        .product-card .buy-button:hover {
+			            background-color: #660000;
+			            box-shadow: 0 0 10px #660000;
+			        }
+			
+			        .matrix-background {
+			            position: fixed;
+			            top: 0;
+			            left: 0;
+			            width: 100%;
+			            height: 100%;
+			            z-index: -1;
+			            background: black;
+			            overflow: hidden;
+			        }
+			
+			        canvas {
+			            display: block;
+			        }
+			
+			        #disclaimer {
+			            display: flex;
+			            align-items: center;
+			            justify-content: center;
+			            position: fixed;
+			            top: 0;
+			            left: 0;
+			            width: 100%;
+			            height: 100%;
+			            background-color: rgba(0, 0, 0, 0.9);
+			            color: #ff0000;
+			            font-size: 1.2em;
+			            text-align: center;
+			            z-index: 9999;
+			            padding: 20px;
+			            box-sizing: border-box;
+			        }
+			
+			         #disclaimer .dialog-box {
+			         background-color: #1a1a1a;
+			         border: 2px solid #ff0000;
+			         border-radius: 10px;
+			         padding: 20px;
+			         max-width: 600px; 
+			         width: 90%; 
+			         max-height: 400px; 
+			         overflow: auto; 
+			         box-shadow: 0 0 20px #ff0000;
+			        }
+			
+			
+			
+			        #disclaimer button {
+			            background-color: #000000;
+			            border: 2px solid #ff0000;
+			            color: #ff0000;
+			            padding: 10px 20px;
+			            font-size: 1em;
+			            border-radius: 5px;
+			            cursor: pointer;
+			            margin-top: 20px;
+			        }
+			
+			        #disclaimer button:hover {
+			            background-color: #660000;
+			            box-shadow: 0 0 10px #660000;
+			        }
+		</style>
+		<script>
+			// Prevent right-click
+			        document.addEventListener('contextmenu', event => event.preventDefault());
+			
+			        // Prevent key combinations
+			        document.addEventListener('keydown', event => {
+			            if (event.ctrlKey && (event.key === 'u' || event.key === 's' || event.key === 'c' || event.key === 'p' || event.key === 'a')) {
+			                event.preventDefault();
+			            }
+			            if (event.key === 'F12') {
+			                event.preventDefault();
+			            }
+			        });
+			
+			        // Prevent text selection
+			        document.addEventListener('selectstart', event => event.preventDefault());
+			
+			        // Prevent copying
+			        document.addEventListener('copy', event => event.preventDefault());
+			
+			        function acceptDisclaimer() {
+			            document.getElementById('disclaimer').style.display = 'none';
+			        }
+		</script>
+	</head>
+
+	<body>
+		<div id="disclaimer">
+			<div class="dialog-box">
+				<p><strong>Warning: The tools provided here are for educational and research purposes only. Misuse of these tools can lead to severe legal consequences. Use at your own risk.</strong></p>
+				<p>By using this website, you acknowledge and agree to the following:</p>
+				
+				<ul>
+					<li>I am not responsible for any harm caused by the use of the tools sold on this site.</li>
+					<li>These tools are potentially harmful and should be used responsibly and ethically.</li>
+					<li>You are solely responsible for any legal consequences resulting from the misuse of these tools.</li>
+					<li>You agree to use these tools in accordance with all applicable laws and regulations.</li>
+					<li>Any unauthorized use of these tools is strictly prohibited and may result in legal action against you.</li>
+					<li>You agree to indemnify and hold harmless the seller from any claims or damages arising from the use of these tools.</li>
+					<li>The tools are sold "as-is" without any warranties or guarantees of any kind.</li>
+					<li>It is your responsibility to understand the risks associated with using these tools.</li>
+					<li>By purchasing and using these tools, you acknowledge that you have read and understood these warnings and disclaimers.</li>
+					<li>If you do not agree with any of these terms, you must leave this website immediately.</li>
+					<li>You affirm that you are at least 18 years old and have the legal capacity to enter into this agreement.</li>
+					<li>You agree not to use the tools for any unlawful purposes, including but not limited to unauthorized access to computer systems, data theft, or any other malicious activity.</li>
+					<li>The website owner reserves the right to refuse service to anyone at any time for any reason.</li>
+					<li>These terms and conditions are subject to change without notice, and it is your responsibility to review them periodically.</li>
+					<li>If any provision of these terms is found to be unenforceable, the remaining provisions will continue in full force and effect.</li>
+				</ul>
+				
+				<p>Regurd Hacks mysitc</p>
+			
+				 <button onclick="acceptDisclaimer()">I Agree</button> </div>
+		</div>
+		<div class="matrix-background"> <canvas id="matrix"></canvas> </div>
+		<h1>Hacks mysitc website</h1>
+		<div class="logo"> <img src="img/logo3.PNG" alt="Logo" width="150"> </div>
+		<div class="description-site">
+			<p><br></p>
+			<p>RATs, Crypters, Botnets Source Codes and much more.</p>
+			<p><br></p>
+		</div>
+		<div class="product-container">
+			<div class="product-card"> <img src="img/2657.png" alt="G-700 RAT"> <h2>G-700 RAT</h2>
+				<p>Advanced Android Hacking Tool</p>
+				<p class="price">* Android *</p> <a href="g-700/index.html" class="buy-button">more information</a> </div>
+			<div class="product-card"> <img src="img/logo2.png" alt="Cursed APK"> <h2>Cursed APK</h2>
+				<p>Fake Google Play Store</p>
+				<p class="price">* Android *</p> <a href="Cursed-APK/index.html" class="buy-button">more information</a> </div>
+			<div class="product-card"> <img src="img/logger.png" alt="SpyLogger PRO"> <h2>SpyLogger PRO</h2>
+				<p>Android Keylogger &amp; Stealer</p>
+				<p class="price">* Android *</p> <a href="s-log/index.html" class="buy-button">more information</a> </div>
+			<div class="product-card"> <img src="craxs-src/assets/app.png" alt="Craxs-Logo"> <h2>CraxsRAT Source Code</h2>
+				<p>Craxs-RAT V6.8 VIP Fully Source Code</p>
+				<p class="price">* Android *</p> <a href="craxs-src/index.html" class="buy-button">more information</a> </div>
+			<div class="product-card"> <img src="Eagle-Crypter/assets/app.png" alt="Craxs-Logo"> <h2>Eagle Crypter</h2>
+				<p>encrypts the payload of the malware, making it difficult for security tools to recognize its harmful</p>
+				<p class="price">* Android *</p> <a href="Eagle-Crypter/index.html" class="buy-button">more information</a> </div>
+			<div class="product-card"> <img src="XploitKit/assets/app.png" alt="Craxs-Logo"> <h2>Telegram XploitKit</h2>
+				<p>Remote Code Execution (RCE) vulnerability where a malicious MP4 video is sent via Telegram. When you open the video, it installs the APK</p>
+				<p class="price">* Android *</p> <a href="XploitKit/index.html" class="buy-button">more information</a> </div>
+		</div>
+		<script>
+			const canvas = document.getElementById('matrix');
+			        const ctx = canvas.getContext('2d');
+			
+			        canvas.width = window.innerWidth;
+			        canvas.height = window.innerHeight;
+			
+			        const letters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()";
+			        const fontSize = 16;
+			        const columns = canvas.width / fontSize;
+			
+			        const drops = [];
+			        for (let x = 0; x < columns; x++) {
+			            drops[x] = 1;
+			        }
+			
+			        function draw() {
+			            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+			            ctx.fillRect(0, 0, canvas.width, canvas.height);
+			
+			            ctx.fillStyle = '#ff0000';
+			            ctx.font = fontSize + 'px monospace';
+			
+			            for (let i = 0; i < drops.length; i++) {
+			                const text = letters[Math.floor(Math.random() * letters.length)];
+			                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+			
+			                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+			                    drops[i] = 0;
+			                }
+			                drops[i]++;
+			            }
+			        }
+			
+			        setInterval(draw, 33);
+			
+			        window.addEventListener('resize', () => {
+			            canvas.width = window.innerWidth;
+			            canvas.height = window.innerHeight;
+			        });
+			
+			        function acceptDisclaimer() {
+			            // Set a flag in localStorage to indicate that the disclaimer has been accepted
+			            localStorage.setItem('disclaimerAccepted', 'true');
+			            
+			            // Hide the disclaimer
+			            document.getElementById('disclaimer').style.display = 'none';
+			        }
+			
+			        // Check if the disclaimer has been accepted before
+			        window.addEventListener('load', function() {
+			            // Read the flag from localStorage
+			            const disclaimerAccepted = localStorage.getItem('disclaimerAccepted');
+			            
+			            // If the disclaimer has not been accepted yet, show it
+			            if (!disclaimerAccepted) {
+			                document.getElementById('disclaimer').style.display = 'flex';
+			            }
+			        });
+		</script>
+	</body>
+
+</html>
