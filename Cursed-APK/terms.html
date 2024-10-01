@@ -1,47 +1,56 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stripe Payment</title>
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <h1>Manual Stripe Payment</h1>
+    <form id="payment-form">
+        <div id="card-element"></div>
+        <button id="submit">Pay Now</button>
+        <p id="error-message"></p>
+    </form>
 
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Cursed APK - Terms of Use</title>
-		<style>
-			body {
-			            background-color: black;
-			            color: red;
-			            font-family: Arial, sans-serif;
-			            margin: 0;
-			            padding: 0;
-			            display: flex;
-			            justify-content: center;
-			            align-items: center;
-			            height: 100vh;
-			        }
-			        .container {
-			            text-align: center;
-			        }
-			        h1 {
-			            font-size: 2em;
-			            margin-bottom: 20px;
-			        }
-			        p {
-			            font-size: 1.2em;
-			            line-height: 1.6;
-			        }
-		</style>
-	</head>
+    <script>
+        const stripe = Stripe('YOUR_PUBLIC_STRIPE_KEY'); // Replace with your public Stripe key
 
-	<body>
-		<div class="container">
-			<h1>Terms of Use</h1>
-			<p>By using the Cursed APK, you agree to the following terms:</p>
-			<p>1. Acceptance: By downloading or using the Cursed APK, you agree to these terms.</p>
-			<p>2. License: You are granted a limited license to use the Cursed APK for personal non-commercial use.</p>
-			<p>3. Disclaimer: The Cursed APK is provided "as is" without any warranties.</p>
-			<p>4. Distribution: You may not distribute or modify the Cursed APK for commercial purposes.</p>
-			<p>5. Acknowledgment: You acknowledge that the Developer is not liable for any damages resulting from the use of the Cursed APK.</p>
-		</div>
-	</body>
+        const elements = stripe.elements();
+        const cardElement = elements.create('card');
+        cardElement.mount('#card-element');
 
+        const form = document.getElementById('payment-form');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const { paymentMethod, error } = await stripe.createPaymentMethod({
+                type: 'card',
+                card: cardElement,
+            });
+
+            if (error) {
+                document.getElementById('error-message').textContent = error.message;
+            } else {
+                fetch('/create-payment-intent', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ paymentMethodId: paymentMethod.id }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        document.getElementById('error-message').textContent = data.error;
+                    } else {
+                        alert('Payment successful!');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
 </html>
